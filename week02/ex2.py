@@ -15,8 +15,8 @@ x,y = np.loadtxt('C:/users/Jorge Huizar/Dropbox/177/Lab 2/velocities.txt',unpack
 Isimp = integrate.simps(y,x)
 Itrap = integrate.trapz(y,x)
 
-print Isimp
-print Itrap
+print "Simpson's Integrations: ",Isimp
+print "Trapezoidal Integration: ",Itrap
 
 plt.plot(x,y)
 plt.title('Time vs. Velocity')
