@@ -1,0 +1,70 @@
+"""
+Jorge Huizar
+SID 861063727
+Lab 3 Ex 1
+"""
+import numpy as np
+import matplotlib.pyplot as plt
+import math
+
+def phi_funct(q,r):
+    q = float(q)
+    r = float(r)
+    if r == 0:
+        return 0
+    return q/(4 * pi * epsilon_n * r)
+    
+    
+#Constants required for the calculations
+epsilon_n = 8.854187817*10**-12
+pi = 3.14159
+separation = 10.
+size = 100.
+q1 = 1.
+q2 = -1.
+
+#Positions of our two points
+x1 = size / 2. - separation / 2. 
+y1 = size / 2. 
+x2 = size / 2. + separation / 2. 
+y2 = size / 2. 
+
+
+phi_total = np.zeros([101,101])
+
+
+
+for o in range(100): #This while loop will move the calculation to various x points
+    y = float(o)
+    
+    for p in range(100): #This loop moves the evaluation across y values
+        x = float(p)
+        r1 = math.sqrt((x - x1)**2 + (y-y1)**2)
+        r2 = math.sqrt((x - x2)**2 + (y-y2)**2)
+        phi_total[o,p] = phi_funct(q1,r1) + phi_funct(q2,r2)
+        
+
+
+###
+#Here we calculate the partial derivatives and plot them
+#to show the Electric Field vectors in plot 2
+###
+
+x_deriv = np.zeros(shape = (101,101),dtype=float)
+y_deriv = np.zeros(shape = (101,101),dtype=float)
+
+for k in range(100):
+    x_deriv[k,:] = (phi_total[k+1,:]-phi_total[k-1,:])/2
+    y_deriv[:,k] = (phi_total[:,k+1]-phi_total[:,k-1])/2
+    
+    
+plt.subplot(2,1,1)
+plt.imshow(phi_total,origin='lower',extent=([0,size,0,size]))
+plt.gray()
+plt.show()
+
+
+plt.subplot(2,1,2)
+plt.quiver(y_deriv,x_deriv)
+plt.gray()
+plt.show()
